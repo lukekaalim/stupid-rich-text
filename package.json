@@ -1,0 +1,42 @@
+{
+  "name": "stupid-rich-text",
+  "version": "1.0.0",
+  "description": "Rich Text React component that is Stupid",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukekaalim/stupid-rich-text.git"
+  },
+  "keywords": [
+    "react",
+    "rich",
+    "text",
+    "simple",
+    "dumb"
+  ],
+  "author": "luke kaalim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lukekaalim/stupid-rich-text/issues"
+  },
+  "homepage": "https://github.com/lukekaalim/stupid-rich-text#readme",
+  "peerDependencies": {
+    "react": "^16.6.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-flow": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-plugin-react": "^7.11.1",
+    "flow-bin": "^0.85.0",
+    "flow-copy-source": "^2.0.2",
+    "react": "^16.6.1"
+  }
+}
