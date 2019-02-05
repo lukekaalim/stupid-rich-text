@@ -1,60 +1,87 @@
 // @flow
-import { createElement as h } from 'react';
-import type { Element } from 'react';
 
-export type RichTextNode =
-  | TextNode
-  | StyleNode
-  | GroupNode
-  | ParagraphNode
+export type UUID = string;
+export const makeWeakUUID = (): UUID => {
+  let uuid = '', i, random;
+  for (i = 0; i < 32; i++) {
+    random = Math.random() * 16 | 0;
 
-export type TextNode = {
-  type: 'text',
-  text: string,
-};
-
-export type StyleNode = {
-  type: 'style',
-  style: {
-    fontWeight?: 'bold' | 'normal',
-    fontFamily?: string,
-    textDecoration?: 'underline' | 'none',
-    color?: string,
-  },
-  child: RichTextNode,
-};
-
-export type ParagraphNode = {
-  type: 'para',
-  child: RichTextNode,
-};
-
-export type GroupNode = {
-  type: 'group',
-  children: Array<RichTextNode>,
-};
-
-type Props = {
-  node: RichTextNode,
-};
-
-export function UnknownNodeTypeError(unknownType: string) {
-  return new Error(`Unknown Node Type: ${unknownType}: Rich text could not continue parsing`);
-}
-
-const RichText = ({ node }: Props) => {
-  switch (node.type) {
-    case 'text':
-      return node.text;
-    case 'style':
-      return h('span', { style: node.style }, h(RichText, { node: node.child }));
-    case 'group':
-      return node.children.map((child: RichTextNode): Element<typeof RichText> => h(RichText, { node: child }));
-    case 'para':
-      return h('p', null, h(RichText, { node: node.child }));
-    default:
-      throw new UnknownNodeTypeError(node.type);
+    if (i == 8 || i == 12 || i == 16 || i == 20) {
+      uuid += '-';
+    }
+    uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
   }
+  return uuid;
 };
+// SRT = StupidRichText
 
-export default RichText;
+// Empty nodes do nothing.
+export type SRTEmptyNode = {
+  type: 'empty',
+  id: UUID,
+  children: Array<SRTMixedNode>,
+};
+export const buildSRTEmptyNode = (
+  children?: Array<SRTMixedNode> = [],
+  uuid?: string = makeWeakUUID(),
+): SRTEmptyNode => ({
+  type: 'empty',
+  id: uuid,
+  children,
+});
+
+// This node terminates a branch with a string, applying all nested effects.
+export type SRTStringNode = {
+  type: 'string',
+  id: UUID,
+  content: string,
+};
+export const buildSRTStringNode = (
+  content: string,
+  uuid?: string = makeWeakUUID(),
+): SRTStringNode => ({
+  type: 'string',
+  id: uuid,
+  content,
+});
+
+// Denotes a content separation.
+export type SRTParagraphNode = {
+  type: 'paragraph',
+  id: UUID,
+  children: Array<SRTMixedNode>,
+};
+export const buildSRTParagraphNode = (
+  children?: Array<SRTMixedNode> = [],
+  uuid?: string = makeWeakUUID(),
+): SRTParagraphNode => ({
+  type: 'paragraph',
+  id: uuid,
+  children,
+});
+
+// Indicates that the text should be highlighted in a manner, separating it from its surroundings
+export type SRTEmphasizedNode = {
+  type: 'emphasized',
+  id: UUID,
+  method: 'bold' | 'italics' | 'negate',
+  children: Array<SRTMixedNode>,
+};
+export const buildSRTEmphasizedNode = (
+  method: 'bold' | 'italics' | 'negate',
+  children?: Array<SRTMixedNode> = [],
+  uuid?: string = makeWeakUUID(),
+): SRTEmphasizedNode => ({
+  type: 'emphasized',
+  method,
+  id: uuid,
+  children,
+});
+
+
+export type SRTMixedNode =
+  | SRTEmptyNode
+  | SRTStringNode
+  | SRTParagraphNode
+  | SRTEmphasizedNode
+
