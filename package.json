@@ -2,7 +2,8 @@
   "name": "stupid-rich-text",
   "version": "2.0.0",
   "description": "Rich Text React component that is Stupid",
-  "main": "dist/index.js",
+  "main": "dist/stupid-rich-text.cjs.js",
+  "module": "dist/stupid-rich-text.esm.js",
   "scripts": {
     "build": "make"
   },
