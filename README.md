@@ -1,22 +1,14 @@
-# Stupid Rich Text 2.0
-_Even stupider than before!_
+# Stupid Rich Text
 
-So, I don't mark markdown because then I have to do though the pain of markdown _parsers_, of which are complicated and heavy beasts. Plus: markdown is a little insane itself.
+A simple rich text format. Describe your content using a tree of objects.
 
-Also importantly: I want to be able to easily _extend_ the existing system with my own application-specific styles.
+This project mostly just contains a set of flow-types for these objects, and some helper methods to create them.
 
-I don't like html because, well, at its core it's xml. And I def don't want to just _inject_ a pile of random html that the user has written into any page. And parsing xml is a pain, like xml.
+## Installation
 
-So, I need a very simple way of storing rich text. There are probably a million other solutions, but I have a very stupid one right here, that is just JSON because, why not.
+`npm i stupid-rich-text`
 
-Its:
- - Simple: Nodes are three properties, by default we only support 2 style nodes (A paragraph and a text decoration)
- - Extensible: Just add more node types. Handle ones you don't know as null.
- - Safe: Its dumb json. You can't embed an executable script here, became there are not enough moving parts to do so.
-
- Included in this repo is an example react renderer.
-
- ## Nodes
+## Nodes
 
  There are four base nodes:
   1. Null Node
@@ -26,32 +18,29 @@ Its:
 
 They looks something like:
 ```javascript
-
 const nullNode = {
   type: 'null',
-  id: 'ff81a9a8-5f1e-4532-9ee1-2f270fe8703b',
   children: [],
 };
-
+```
+```javascript
 const stringNode = {
   type: 'string',
-  id: 'f5c65a4c-e27e-4363-9c34-aab636eb347d',
   content: 'A string!',
 };
-
+```
+```javascript
 const paragraphNode = {
   type: 'paragraph',
-  id: '7ef848e5-97cf-473a-81f7-02438a878104',
   children: [],
 };
-
+```
+```javascript
 const emphasizedNode = {
   type: 'emphasized',
-  id: '446eba9e-45ac-4fd4-889c-5adc747dd97f',
   method: 'bold',
   children: [],
 };
-
 ```
 
 An example tree might be:
@@ -59,43 +48,35 @@ An example tree might be:
 ```javascript
 const nodeTree = {
   type: 'null',
-  id: 'ff81a9a8-5f1e-4532-9ee1-2f270fe8703b',
   children: [
     {
       type: 'paragraph',
-      id: '7ef848e5-97cf-473a-81f7-02438a878104',
       children: [
         {
           type: 'string',
-          id: 'f5c65a4c-e27e-4363-9c34-aab636eb347d',
           content: 'First paragraph!',
         },
       ],
     },
     {
       type: 'paragraph',
-      id: '7ef848e5-97cf-473a-81f7-02438a878104',
       children: [
         {
           type: 'string',
-          id: 'f5c65a4c-e27e-4363-9c34-aab636eb347d',
           content: 'Second paragraph with a ',
         },
         {
           type: 'emphasized',
-          id: '446eba9e-45ac-4fd4-889c-5adc747dd97f',
           method: 'bold',
           children: [
             {
               type: 'string',
-              id: 'f5c65a4c-e27e-4363-9c34-aab636eb347d',
               content: 'BOLD',
             },
           ],
         },
         {
           type: 'string',
-          id: 'f5c65a4c-e27e-4363-9c34-aab636eb347d',
           content: ' string!',
         },
       ],
@@ -105,12 +86,10 @@ const nodeTree = {
 
 ```
 
-Which might render out to be:
+Which might render to the following markdown (if a markdown renderer is used):
 
----
-
+```markdown
 First paragraph!
 
 Second paragraph with a **BOLD** string!
-
----
+```
