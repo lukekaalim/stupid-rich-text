@@ -52,7 +52,6 @@ export const buildSRTEmphasizedNode = (
   children,
 });
 
-
 export type SRTMixedNode =
   | SRTEmptyNode
   | SRTStringNode
