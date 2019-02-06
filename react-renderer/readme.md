@@ -10,7 +10,7 @@
 
 ```javascript
 import React from 'react';
-import { SRTRenderer } from 'react';
+import { SRTRenderer } from 'stupid-rich-text-react-renderer';
 
 const MyComponent = () => {
   const rootNode = {
@@ -48,6 +48,23 @@ const MyComponent = () => {
 <p>
   <span>This is a Rich text node</span>
 </p>
+```
+
+## Extend
+
+```javascript
+import React from 'react';
+import { SRTRenderer } from 'stupid-rich-text-react-renderer';
+
+const MySRTRenderer = ({ rootNode }) => {
+  switch (rootNode.type) {
+    case 'myType':
+      return <MyComponent rootNode={rootNode} />;
+    default:
+      return <SRTRenderer />;
+  }
+};
+
 ```
 
 ## Build
