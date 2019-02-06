@@ -61,7 +61,7 @@ const MySRTRenderer = ({ rootNode }) => {
     case 'myType':
       return <MyComponent rootNode={rootNode} />;
     default:
-      return <SRTRenderer />;
+      return <SRTRenderer rootNode={rootNode} />;
   }
 };
 
