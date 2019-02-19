@@ -1,0 +1,29 @@
+{
+  "name": "stupid-rich-text-react-renderer",
+  "version": "1.0.0",
+  "description": "React-based renderer component of the base SRT format",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "luke kaalim",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "eslint-plugin-jest": "^22.2.2",
+    "jest": "^24.1.0",
+    "react": "^16.7.0",
+    "react-test-renderer": "^16.7.0",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-flow-entry": "^0.3.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "stupid-rich-text": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.7.0"
+  }
+}
